@@ -15,6 +15,9 @@ def lottery_drawing():
         lotto_numbers.append(lotto_numbers.pop(lotto_numbers.index(random_number)))
         endrange -= 1
 
+    #python tauschzeile einarbeiten
+    # z.B. a=5, b=10 --> a,b=b,a
+
     #if 1 in lotto_numbers[-6:]:
         #global numberOne
         #numberOne += 1
