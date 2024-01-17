@@ -1,7 +1,7 @@
-from .Person import Person
-from .Role import Role
-from .Position import Position
-
+#from .Person import Person
+#from .Role import Role
+#from .Position import Position
+import Person, Role, Position
 class Employee(Person):
     def __init__(self, person_id, firstname, lastname, birthdate, gender, role: Role, position: Position):
         super().__init__(person_id, firstname, lastname, birthdate, gender)
