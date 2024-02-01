@@ -1,6 +1,7 @@
 import json
 import math
 import random
+from time_decorator import timer
 
 # floor-division ... color
 # modulo ... number
@@ -227,6 +228,7 @@ def high_card():
     return True
 
 
+@timer
 def main():
     combinations = {"Royal Flush": 0, "Straight Flush": 0, "Four of a Kind": 0, "Full House": 0, "Flush": 0,
                     "Straight": 0, "Three of a Kind": 0, "Two Pair": 0, "One Pair": 0, "High Card": 0}
