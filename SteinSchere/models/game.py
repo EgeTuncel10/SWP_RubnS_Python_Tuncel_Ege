@@ -1,16 +1,21 @@
 import json
 import random
+import requests
+
+from models import config_file
 
 
 def menu():
     while True:
         print('\n - Play [p]')
         print(' - Statistics [s]')
+        print(' - Save to sqlite db [d]')
+        print(' - Get all results from sqlite db [r]')
         print(' - Exit [e]')
 
         choice = input('Your choice: ')
 
-        if choice.lower() in ['p', 's', 'e']:
+        if choice.lower() in ['p', 's', 'e', 'd', 'r']:
             return choice.lower()
         else:
             print('\nInvalid choice. Please choose either [p] for Play or [s] for Statistics.')
@@ -18,8 +23,8 @@ def menu():
 
 def play_or_show(choice, game_rules):
     if choice == 'p':
-        player = read_value_from_json_file('../game_data.json', 'player')
-        comp = read_value_from_json_file('../game_data.json', 'comp')
+        player = read_value_from_json_file(config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["player"])
+        comp = read_value_from_json_file(config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["comp"])
         print('\n\nLet\'s play! (rock, paper, scissors, lizard, spock)')
         user_move = input('Your move: ')
         move = comp_select_rand_move()
@@ -39,15 +44,33 @@ def play_or_show(choice, game_rules):
             comp[move] += 1
             player[user_move] += 1
 
-        write_to_json_file(comp, '../game_data.json', 'comp')
-        write_to_json_file(player, '../game_data.json', 'player')
+        write_to_json_file(comp, config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["comp"])
+        write_to_json_file(player, config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["player"])
 
     elif choice == 's':
         print('\n\nDisplaying statistics...')
-        player = read_value_from_json_file('../game_data.json', 'player')
-        comp = read_value_from_json_file('../game_data.json', 'comp')
+        player = read_value_from_json_file(config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["player"])
+        comp = read_value_from_json_file(config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["comp"])
         print('player: ' + str(player))
         print('comp: ' + str(comp))
+
+    elif choice == 'd':
+        host_result = config_file.config["urls"]["host_result"]
+        print('\n\nSaving to sqlite db...')
+        player = read_value_from_json_file(config_file.config["file_locations"]["game_data_json"], config_file.config["players"]["player"])
+        response = requests.put('%s/%d' % (host_result, 0), json={'amount_of_wins': player["amount_of_wins"],
+                                                                  'rock': player["rock"], 'paper': player["paper"],
+                                                                  'scissors': player["scissors"],
+                                                                  'lizard': player["lizard"],
+                                                                  'spock': player["spock"]})
+        print(response)
+        print(response.json())
+
+    elif choice == 'r':
+        print('\n\nGetting results from sqlite db...')
+        host_results = config_file.config["urls"]["host_results"]
+        response = requests.get('%s' % host_results)
+        print(json.dumps(response.json(), indent=4))
 
 
 def comp_select_rand_move():

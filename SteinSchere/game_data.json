@@ -1,18 +1,18 @@
 {
   "player": {
-    "amount_of_wins": 0,
-    "rock": 0,
+    "amount_of_wins": 1,
+    "rock": 2,
     "paper": 0,
     "scissors": 0,
     "lizard": 0,
     "spock": 0
   },
   "comp": {
-    "amount_of_wins": 0,
+    "amount_of_wins": 1,
     "rock": 0,
     "paper": 0,
     "scissors": 0,
-    "lizard": 0,
-    "spock": 0
+    "lizard": 2,
+    "spock": 1
   }
 }
