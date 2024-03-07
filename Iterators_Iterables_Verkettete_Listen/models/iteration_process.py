@@ -11,5 +11,18 @@ def main():
     print("Length of the linked list:", linked_list.__len__())
 
     print("\nUsing iterator protocol:")
+    # so
     for data in linked_list:
         print(data)
+
+    # or so:
+    """
+    iterator = linked_list.__iter__()
+    while True:
+        try:
+            item = iterator.__next__()
+        except StopIteration:
+            break
+        else:
+            print(item)
+    """
